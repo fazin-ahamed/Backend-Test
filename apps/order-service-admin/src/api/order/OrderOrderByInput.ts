@@ -7,7 +7,9 @@ export type OrderOrderByInput = {
   customerMapLocation?: SortOrder;
   customerName?: SortOrder;
   customerPhoneNumber?: SortOrder;
+  discountCodeId?: SortOrder;
   id?: SortOrder;
+  offerId?: SortOrder;
   totalCost?: SortOrder;
   updatedAt?: SortOrder;
 };

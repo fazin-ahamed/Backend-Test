@@ -45,13 +45,36 @@ model Dish {
 }
 
 model Order {
-  createdAt           DateTime @default(now())
+  createdAt           DateTime      @default(now())
   customerAddress     String?
   customerEmail       String?
   customerMapLocation Json?
   customerName        String?
   customerPhoneNumber Int?
-  id                  String   @id @default(cuid())
+  discountCode        DiscountCode? @relation(fields: [discountCodeId], references: [id])
+  discountCodeId      String?
+  id                  String        @id @default(cuid())
+  offer               Offer?        @relation(fields: [offerId], references: [id])
+  offerId             String?
   totalCost           Float?
-  updatedAt           DateTime @updatedAt
+  updatedAt           DateTime      @updatedAt
+}
+
+model Offer {
+  createdAt   DateTime  @default(now())
+  description String?
+  id          String    @id @default(cuid())
+  orders      Order[]
+  title       String?
+  updatedAt   DateTime  @updatedAt
+  validUntil  DateTime?
+}
+
+model DiscountCode {
+  code               String?
+  createdAt          DateTime @default(now())
+  discountPercentage Float?
+  id                 String   @id @default(cuid())
+  orders             Order[]
+  updatedAt          DateTime @updatedAt
 }

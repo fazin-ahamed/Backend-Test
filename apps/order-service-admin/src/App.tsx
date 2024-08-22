@@ -25,7 +25,15 @@ import { OrderList } from "./order/OrderList";
 import { OrderCreate } from "./order/OrderCreate";
 import { OrderEdit } from "./order/OrderEdit";
 import { OrderShow } from "./order/OrderShow";
-import { httpAuthProvider } from "./auth-provider/ra-auth-http";
+import { OfferList } from "./offer/OfferList";
+import { OfferCreate } from "./offer/OfferCreate";
+import { OfferEdit } from "./offer/OfferEdit";
+import { OfferShow } from "./offer/OfferShow";
+import { DiscountCodeList } from "./discountCode/DiscountCodeList";
+import { DiscountCodeCreate } from "./discountCode/DiscountCodeCreate";
+import { DiscountCodeEdit } from "./discountCode/DiscountCodeEdit";
+import { DiscountCodeShow } from "./discountCode/DiscountCodeShow";
+import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
   const [dataProvider, setDataProvider] = useState<DataProvider | null>(null);
@@ -46,7 +54,7 @@ const App = (): React.ReactElement => {
       <Admin
         title={"Order Service"}
         dataProvider={dataProvider}
-        authProvider={httpAuthProvider}
+        authProvider={jwtAuthProvider}
         theme={theme}
         dashboard={Dashboard}
         loginPage={Login}
@@ -85,6 +93,20 @@ const App = (): React.ReactElement => {
           edit={OrderEdit}
           create={OrderCreate}
           show={OrderShow}
+        />
+        <Resource
+          name="Offer"
+          list={OfferList}
+          edit={OfferEdit}
+          create={OfferCreate}
+          show={OfferShow}
+        />
+        <Resource
+          name="DiscountCode"
+          list={DiscountCodeList}
+          edit={DiscountCodeEdit}
+          create={DiscountCodeCreate}
+          show={DiscountCodeShow}
         />
       </Admin>
     </div>

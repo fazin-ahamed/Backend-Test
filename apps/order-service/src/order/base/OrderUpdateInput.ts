@@ -18,11 +18,15 @@ import {
   IsInt,
   Min,
   Max,
+  ValidateNested,
   IsNumber,
 } from "class-validator";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { DiscountCodeWhereUniqueInput } from "../../discountCode/base/DiscountCodeWhereUniqueInput";
+import { Type } from "class-transformer";
+import { OfferWhereUniqueInput } from "../../offer/base/OfferWhereUniqueInput";
 
 @InputType()
 class OrderUpdateInput {
@@ -83,6 +87,30 @@ class OrderUpdateInput {
     nullable: true,
   })
   customerPhoneNumber?: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => DiscountCodeWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => DiscountCodeWhereUniqueInput)
+  @IsOptional()
+  @Field(() => DiscountCodeWhereUniqueInput, {
+    nullable: true,
+  })
+  discountCode?: DiscountCodeWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => OfferWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => OfferWhereUniqueInput)
+  @IsOptional()
+  @Field(() => OfferWhereUniqueInput, {
+    nullable: true,
+  })
+  offer?: OfferWhereUniqueInput | null;
 
   @ApiProperty({
     required: false,

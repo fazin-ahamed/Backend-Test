@@ -47,7 +47,21 @@ export class OrderControllerBase {
   })
   async createOrder(@common.Body() data: OrderCreateInput): Promise<Order> {
     return await this.service.createOrder({
-      data: data,
+      data: {
+        ...data,
+
+        discountCode: data.discountCode
+          ? {
+              connect: data.discountCode,
+            }
+          : undefined,
+
+        offer: data.offer
+          ? {
+              connect: data.offer,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         customerAddress: true,
@@ -55,7 +69,21 @@ export class OrderControllerBase {
         customerMapLocation: true,
         customerName: true,
         customerPhoneNumber: true,
+
+        discountCode: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+
+        offer: {
+          select: {
+            id: true,
+          },
+        },
+
         totalCost: true,
         updatedAt: true,
       },
@@ -85,7 +113,21 @@ export class OrderControllerBase {
         customerMapLocation: true,
         customerName: true,
         customerPhoneNumber: true,
+
+        discountCode: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+
+        offer: {
+          select: {
+            id: true,
+          },
+        },
+
         totalCost: true,
         updatedAt: true,
       },
@@ -116,7 +158,21 @@ export class OrderControllerBase {
         customerMapLocation: true,
         customerName: true,
         customerPhoneNumber: true,
+
+        discountCode: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+
+        offer: {
+          select: {
+            id: true,
+          },
+        },
+
         totalCost: true,
         updatedAt: true,
       },
@@ -148,7 +204,21 @@ export class OrderControllerBase {
     try {
       return await this.service.updateOrder({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          discountCode: data.discountCode
+            ? {
+                connect: data.discountCode,
+              }
+            : undefined,
+
+          offer: data.offer
+            ? {
+                connect: data.offer,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           customerAddress: true,
@@ -156,7 +226,21 @@ export class OrderControllerBase {
           customerMapLocation: true,
           customerName: true,
           customerPhoneNumber: true,
+
+          discountCode: {
+            select: {
+              id: true,
+            },
+          },
+
           id: true,
+
+          offer: {
+            select: {
+              id: true,
+            },
+          },
+
           totalCost: true,
           updatedAt: true,
         },
@@ -195,7 +279,21 @@ export class OrderControllerBase {
           customerMapLocation: true,
           customerName: true,
           customerPhoneNumber: true,
+
+          discountCode: {
+            select: {
+              id: true,
+            },
+          },
+
           id: true,
+
+          offer: {
+            select: {
+              id: true,
+            },
+          },
+
           totalCost: true,
           updatedAt: true,
         },

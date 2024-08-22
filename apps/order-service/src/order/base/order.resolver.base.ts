@@ -26,6 +26,8 @@ import { OrderFindUniqueArgs } from "./OrderFindUniqueArgs";
 import { CreateOrderArgs } from "./CreateOrderArgs";
 import { UpdateOrderArgs } from "./UpdateOrderArgs";
 import { DeleteOrderArgs } from "./DeleteOrderArgs";
+import { DiscountCode } from "../../discountCode/base/DiscountCode";
+import { Offer } from "../../offer/base/Offer";
 import { OrderService } from "../order.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Order)
@@ -88,7 +90,21 @@ export class OrderResolverBase {
   async createOrder(@graphql.Args() args: CreateOrderArgs): Promise<Order> {
     return await this.service.createOrder({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        discountCode: args.data.discountCode
+          ? {
+              connect: args.data.discountCode,
+            }
+          : undefined,
+
+        offer: args.data.offer
+          ? {
+              connect: args.data.offer,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -105,7 +121,21 @@ export class OrderResolverBase {
     try {
       return await this.service.updateOrder({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          discountCode: args.data.discountCode
+            ? {
+                connect: args.data.discountCode,
+              }
+            : undefined,
+
+          offer: args.data.offer
+            ? {
+                connect: args.data.offer,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -136,5 +166,45 @@ export class OrderResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => DiscountCode, {
+    nullable: true,
+    name: "discountCode",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "DiscountCode",
+    action: "read",
+    possession: "any",
+  })
+  async getDiscountCode(
+    @graphql.Parent() parent: Order
+  ): Promise<DiscountCode | null> {
+    const result = await this.service.getDiscountCode(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Offer, {
+    nullable: true,
+    name: "offer",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Offer",
+    action: "read",
+    possession: "any",
+  })
+  async getOffer(@graphql.Parent() parent: Order): Promise<Offer | null> {
+    const result = await this.service.getOffer(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

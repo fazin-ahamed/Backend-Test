@@ -13,10 +13,12 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsOptional, ValidateNested } from "class-validator";
 import { JsonFilter } from "../../util/JsonFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
+import { DiscountCodeWhereUniqueInput } from "../../discountCode/base/DiscountCodeWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
+import { OfferWhereUniqueInput } from "../../offer/base/OfferWhereUniqueInput";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 
 @InputType()
@@ -78,6 +80,18 @@ class OrderWhereInput {
 
   @ApiProperty({
     required: false,
+    type: () => DiscountCodeWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => DiscountCodeWhereUniqueInput)
+  @IsOptional()
+  @Field(() => DiscountCodeWhereUniqueInput, {
+    nullable: true,
+  })
+  discountCode?: DiscountCodeWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -86,6 +100,18 @@ class OrderWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => OfferWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => OfferWhereUniqueInput)
+  @IsOptional()
+  @Field(() => OfferWhereUniqueInput, {
+    nullable: true,
+  })
+  offer?: OfferWhereUniqueInput;
 
   @ApiProperty({
     required: false,
