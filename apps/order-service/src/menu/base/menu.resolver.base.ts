@@ -156,6 +156,14 @@ export class MenuResolverBase {
     return results;
   }
 
+  @graphql.Mutation(() => MenuFindUniqueArgs)
+  async AuthenticatedCreateOrder(
+    @graphql.Args()
+    args: UpdateMenuArgs
+  ): Promise<MenuFindUniqueArgs> {
+    return this.service.AuthenticatedCreateOrder(args);
+  }
+
   @graphql.Query(() => [MenuWithDishes])
   async GetMenusWithDishes(
     @graphql.Args()

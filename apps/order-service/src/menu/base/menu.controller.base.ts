@@ -30,6 +30,7 @@ import { DishFindManyArgs } from "../../dish/base/DishFindManyArgs";
 import { Dish } from "../../dish/base/Dish";
 import { DishWhereUniqueInput } from "../../dish/base/DishWhereUniqueInput";
 import { MenuWhereInput } from "./MenuWhereInput";
+import { MenuFindUniqueArgs } from "./MenuFindUniqueArgs";
 import { MenuWithDishes } from "../MenuWithDishes";
 
 @swagger.ApiBearerAuth()
@@ -293,6 +294,23 @@ export class MenuControllerBase {
       data,
       select: { id: true },
     });
+  }
+
+  @common.Post("/create-auth-order")
+  @swagger.ApiOkResponse({
+    type: MenuFindUniqueArgs,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async AuthenticatedCreateOrder(
+    @common.Body()
+    body: MenuWhereInput
+  ): Promise<MenuFindUniqueArgs> {
+    return this.service.AuthenticatedCreateOrder(body);
   }
 
   @common.Get("/menus-with-dishes")
