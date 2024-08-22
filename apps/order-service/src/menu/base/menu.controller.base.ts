@@ -29,6 +29,8 @@ import { MenuUpdateInput } from "./MenuUpdateInput";
 import { DishFindManyArgs } from "../../dish/base/DishFindManyArgs";
 import { Dish } from "../../dish/base/Dish";
 import { DishWhereUniqueInput } from "../../dish/base/DishWhereUniqueInput";
+import { MenuWhereInput } from "./MenuWhereInput";
+import { MenuWithDishes } from "../MenuWithDishes";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -291,5 +293,22 @@ export class MenuControllerBase {
       data,
       select: { id: true },
     });
+  }
+
+  @common.Get("/menus-with-dishes")
+  @swagger.ApiOkResponse({
+    type: MenuWithDishes,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async GetMenusWithDishes(
+    @common.Body()
+    body: MenuWhereInput
+  ): Promise<MenuWithDishes[]> {
+    return this.service.GetMenusWithDishes(body);
   }
 }

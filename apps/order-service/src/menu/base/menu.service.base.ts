@@ -11,6 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { PrismaService } from "../../prisma/prisma.service";
 import { Prisma, Menu as PrismaMenu, Dish as PrismaDish } from "@prisma/client";
+import { MenuWhereInput } from "./MenuWhereInput";
+import { MenuWithDishes } from "../MenuWithDishes";
 
 export class MenuServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -44,5 +46,8 @@ export class MenuServiceBase {
         where: { id: parentId },
       })
       .dishes(args);
+  }
+  async GetMenusWithDishes(args: MenuWhereInput): Promise<MenuWithDishes[]> {
+    throw new Error("Not implemented");
   }
 }

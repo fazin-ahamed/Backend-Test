@@ -28,6 +28,8 @@ import { UpdateMenuArgs } from "./UpdateMenuArgs";
 import { DeleteMenuArgs } from "./DeleteMenuArgs";
 import { DishFindManyArgs } from "../../dish/base/DishFindManyArgs";
 import { Dish } from "../../dish/base/Dish";
+import { MenuWhereInput } from "./MenuWhereInput";
+import { MenuWithDishes } from "../MenuWithDishes";
 import { MenuService } from "../menu.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Menu)
@@ -152,5 +154,13 @@ export class MenuResolverBase {
     }
 
     return results;
+  }
+
+  @graphql.Query(() => [MenuWithDishes])
+  async GetMenusWithDishes(
+    @graphql.Args()
+    args: MenuWhereInput
+  ): Promise<MenuWithDishes[]> {
+    return this.service.GetMenusWithDishes(args);
   }
 }
