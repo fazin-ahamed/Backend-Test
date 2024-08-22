@@ -6,6 +6,7 @@ import { DishModule } from "./dish/dish.module";
 import { OrderModule } from "./order/order.module";
 import { OfferModule } from "./offer/offer.module";
 import { DiscountCodeModule } from "./discountCode/discountCode.module";
+import { EmailServiceModule } from "./emailservice/emailservice.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -30,6 +31,7 @@ import { AuthModule } from "./auth/auth.module";
     OrderModule,
     OfferModule,
     DiscountCodeModule,
+    EmailServiceModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

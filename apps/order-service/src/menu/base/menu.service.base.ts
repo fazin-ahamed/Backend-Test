@@ -11,6 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { PrismaService } from "../../prisma/prisma.service";
 import { Prisma, Menu as PrismaMenu, Dish as PrismaDish } from "@prisma/client";
+import { UpdateMenuArgs } from "./UpdateMenuArgs";
+import { MenuFindUniqueArgs } from "./MenuFindUniqueArgs";
 import { MenuWhereInput } from "./MenuWhereInput";
 import { MenuWithDishes } from "../MenuWithDishes";
 
@@ -46,6 +48,11 @@ export class MenuServiceBase {
         where: { id: parentId },
       })
       .dishes(args);
+  }
+  async AuthenticatedCreateOrder(
+    args: UpdateMenuArgs
+  ): Promise<MenuFindUniqueArgs> {
+    throw new Error("Not implemented");
   }
   async GetMenusWithDishes(args: MenuWhereInput): Promise<MenuWithDishes[]> {
     throw new Error("Not implemented");
