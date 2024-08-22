@@ -1,0 +1,80 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Restaurant {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model Menu {
+  createdAt DateTime @default(now())
+  dishes    Dish[]
+  id        String   @id @default(cuid())
+  name      String?
+  updatedAt DateTime @updatedAt
+}
+
+model Dish {
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  menu        Menu?    @relation(fields: [menuId], references: [id])
+  menuId      String?
+  name        String?
+  price       Float?
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  createdAt           DateTime      @default(now())
+  customerAddress     String?
+  customerEmail       String?
+  customerMapLocation Json?
+  customerName        String?
+  customerPhoneNumber Int?
+  discountCode        DiscountCode? @relation(fields: [discountCodeId], references: [id])
+  discountCodeId      String?
+  id                  String        @id @default(cuid())
+  offer               Offer?        @relation(fields: [offerId], references: [id])
+  offerId             String?
+  totalCost           Float?
+  updatedAt           DateTime      @updatedAt
+}
+
+model Offer {
+  createdAt   DateTime  @default(now())
+  description String?
+  id          String    @id @default(cuid())
+  orders      Order[]
+  title       String?
+  updatedAt   DateTime  @updatedAt
+  validUntil  DateTime?
+}
+
+model DiscountCode {
+  code               String?
+  createdAt          DateTime @default(now())
+  discountPercentage Float?
+  id                 String   @id @default(cuid())
+  orders             Order[]
+  updatedAt          DateTime @updatedAt
+}
